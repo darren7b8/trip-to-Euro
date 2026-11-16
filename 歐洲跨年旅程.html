@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>歐洲跨年旅程</title>
+<style>
+:root{--bg:#f6f3ee;--card:#fff;--tx:#1f2430;--mu:#6b7280;--ac:#b4442f;--ac2:#2f6f6a;--bd:#e5dfd5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171c;--card:#1f232b;--tx:#eceae6;--mu:#9aa1ad;--ac:#e8806a;--ac2:#6fb8b1;--bd:#2d323c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15171c;--card:#1f232b;--tx:#eceae6;--mu:#9aa1ad;--ac:#e8806a;--ac2:#6fb8b1;--bd:#2d323c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 -apple-system,"Noto Sans TC","PingFang TC",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:9;padding:10px 16px 8px;border-bottom:1px solid var(--bd)}
+h1{font-size:18px;margin:0 0 8px}h3{font-size:15px;margin:18px 0 8px}
+.tabs,.chips{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+button,.imp{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 14px;font-size:14px;cursor:pointer;flex:none}
+button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.imp{display:inline-block;color:var(--ac2);border-color:var(--ac2)}
+main{max-width:640px;margin:0 auto;padding:12px 16px 60px}
+details,.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.card{padding:14px}.nx{border:2px solid var(--ac);border-radius:14px;padding:0 12px;margin:10px 0;background:var(--card)}
+summary{padding:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;gap:8px}
+summary span{color:var(--mu);font-weight:400;font-size:14px}
+.in{padding:0 14px 12px}
+.it{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--bd)}.nx .it{border:0}
+.tm{width:50px;flex:none;font-size:13px;color:var(--ac);font-weight:600}
+.mu{color:var(--mu);font-size:14px}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.btns a,.cf{font-size:13px;padding:3px 10px;border-radius:12px;border:1px solid var(--ac2);color:var(--ac2);text-decoration:none;cursor:pointer;display:inline-block}
+.bk{font-size:14px;padding:6px 10px;margin:6px 0;border-radius:10px;background:var(--bd)}
+.route{display:inline-block;margin:4px 0 8px;font-size:14px;color:var(--ac2)}
+.tot{font-size:28px;font-weight:700;margin:4px 0}
+.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;font-size:15px}
+.bar{height:8px;border-radius:4px;background:var(--bd);margin:2px 0 10px}.bar i{display:block;height:100%;border-radius:4px;background:var(--ac2)}
+.note{font-size:13px;color:var(--mu);margin:10px 0}
+.cn{flex:1;min-width:0}.hd{flex:none;width:34px;text-align:center;color:var(--mu);font-size:22px;align-self:center;touch-action:none;user-select:none;cursor:grab}
+.it.drag{opacity:.35}.ot{box-shadow:0 -3px 0 var(--ac)}.ob{box-shadow:0 3px 0 var(--ac)}details.od{outline:2px solid var(--ac)}
+#ts{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 16px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+</style></head><body>
+<header><h1>🇭🇺🇦🇹 布達佩斯・維也納・薩爾茲堡</h1><div class="tabs" id="tb"></div></header>
+<main id="m"></main><div id="ts"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const DEFAULT={"it": [{"d": "2026-12-27", "s": "11:25", "e": "13:00", "c": "布達佩斯", "t": "抵達布達佩斯機場 W6 2272", "p": "Budapest Airport Terminal 2B", "tr": "機場巴士/Bolt", "du": "45分", "l": "", "n": "11:25 抵達,可先到飯店寄放行李"}, {"d": "2026-12-27", "s": "18:30", "e": "20:30", "c": "布達佩斯", "t": "多瑙河畔夜景散步", "p": "Chain Bridge", "tr": "走路", "du": "10分", "l": "https://www.youtube.com/results?search_query=budapest+travel", "n": "看自由橋、鏈子橋夜景(範例列,可直接改)"}, {"d": "2026-12-27", "s": "20:30", "e": "", "c": "布達佩斯", "t": "晚餐:匈牙利牛肉湯", "p": "Vörösmarty tér", "tr": "走路", "du": "15分", "l": "", "n": ""}, {"d": "2026-12-28", "s": "09:30", "e": "11:30", "c": "布達佩斯", "t": "馬加什教堂", "p": "Matthias Church", "tr": "公車16號", "du": "30分", "l": "", "n": ""}, {"d": "2026-12-28", "s": "11:30", "e": "13:00", "c": "布達佩斯", "t": "漁夫堡", "p": "Fisherman's Bastion", "tr": "走路", "du": "5分", "l": "", "n": ""}, {"d": "2026-12-28", "s": "20:00", "e": "21:00", "c": "布達佩斯", "t": "多瑙河夜間遊船", "p": "Vigadó tér", "tr": "地鐵", "du": "20分", "l": "", "n": "事先訂票"}, {"d": "2026-12-29", "s": "10:00", "e": "12:00", "c": "布達佩斯", "t": "國會大廈導覽", "p": "Hungarian Parliament Building", "tr": "走路", "du": "15分", "l": "", "n": "需預約、帶護照"}, {"d": "2026-12-29", "s": "14:00", "e": "17:00", "c": "布達佩斯", "t": "Széchenyi 溫泉", "p": "Széchenyi Thermal Bath", "tr": "地鐵M1", "du": "20分", "l": "", "n": "帶泳衣、拖鞋"}, {"d": "2026-12-30", "s": "11:30", "e": "14:20", "c": "布達佩斯", "t": "火車:布達佩斯→維也納 RJX 64", "p": "Budapest Keleti railway station", "tr": "Railjet火車", "du": "2時50分", "l": "", "n": "22車廂 座位71/73;跨國車票需列印A4"}, {"d": "2026-12-30", "s": "16:00", "e": "17:30", "c": "維也納", "t": "環城大道散步", "p": "Vienna State Opera", "tr": "地鐵U1", "du": "15分", "l": "", "n": ""}, {"d": "2026-12-30", "s": "20:15", "e": "", "c": "維也納", "t": "Vienna Mozart Orchestra 音樂會", "p": "Hofburg Great Hall Heldenplatz", "tr": "地鐵/走路", "du": "20分", "l": "", "n": "19:45開放入場;座位於當晚票務櫃檯領取"}, {"d": "2026-12-31", "s": "10:00", "e": "12:30", "c": "維也納", "t": "美泉宮", "p": "Schönbrunn Palace", "tr": "地鐵U4", "du": "25分", "l": "", "n": "預約時段票"}, {"d": "2026-12-31", "s": "21:00", "e": "", "c": "維也納", "t": "跨年 Silvesterpfad", "p": "Rathausplatz", "tr": "地鐵", "du": "20分", "l": "", "n": "午夜倒數、煙火"}, {"d": "2027-01-01", "s": "10:30", "e": "12:30", "c": "維也納", "t": "貝爾維第宮", "p": "Belvedere Palace", "tr": "電車D", "du": "20分", "l": "", "n": "確認是否開放"}, {"d": "2027-01-01", "s": "14:00", "e": "15:30", "c": "維也納", "t": "普拉特摩天輪", "p": "Wiener Riesenrad", "tr": "地鐵U1", "du": "20分", "l": "", "n": ""}, {"d": "2027-01-01", "s": "17:28", "e": "19:53", "c": "維也納", "t": "火車:維也納→薩爾茲堡 RJX 760", "p": "Wien Hauptbahnhof", "tr": "火車", "du": "2時25分", "l": "", "n": "限搭此班(Zugbindung);21車廂 座位71/73"}, {"d": "2027-01-02", "s": "15:00", "e": "18:00", "c": "薩爾茲堡", "t": "舊城區與穀物巷", "p": "Getreidegasse", "tr": "巴士", "du": "15分", "l": "", "n": ""}, {"d": "2027-01-03", "s": "09:30", "e": "12:00", "c": "薩爾茲堡", "t": "霍恩薩爾茲堡城堡", "p": "Hohensalzburg Fortress", "tr": "走路+纜車", "du": "20分", "l": "", "n": ""}, {"d": "2027-01-03", "s": "14:00", "e": "16:00", "c": "薩爾茲堡", "t": "米拉貝爾宮與花園", "p": "Mirabell Palace", "tr": "走路", "du": "15分", "l": "", "n": "音樂之聲取景地"}, {"d": "2027-01-04", "s": "13:45", "e": "16:05", "c": "薩爾茲堡", "t": "前往機場、報到(櫃檯16:05截止)", "p": "Salzburg Airport", "tr": "巴士2號", "du": "25分", "l": "", "n": "HV6782 16:45 起飛"}], "bd": [{"d": "2026-11-15", "cat": "機票", "item": "去程 Wizz Air W6 2272", "amt": 154.79, "cur": "EUR", "paid": "已付"}, {"d": "2026-11-13", "cat": "機票", "item": "回程 Transavia HV6782", "amt": 125, "cur": "EUR", "paid": "已付"}, {"d": "2026-11-13", "cat": "住宿", "item": "Airbnb 布達佩斯 3晚", "amt": 11643.14, "cur": "TWD", "paid": "已付"}, {"d": "2026-12-28", "cat": "餐飲", "item": "晚餐", "amt": 25000, "cur": "HUF", "paid": "已付"}, {"d": "2026-12-29", "cat": "門票", "item": "Széchenyi 溫泉", "amt": 13000, "cur": "HUF", "paid": "待付"}, {"d": "2026-12-30", "cat": "交通", "item": "火車 布達佩斯→維也納(2人含訂位)", "amt": 111.4, "cur": "EUR", "paid": "已付"}, {"d": "2026-11-14", "cat": "住宿", "item": "Leonardo Hotel Vienna 2晚", "amt": 18836, "cur": "TWD", "paid": "已付"}, {"d": "2026-12-30", "cat": "住宿", "item": "維也納飯店現場另付(其他費用)", "amt": 24, "cur": "EUR", "paid": "待付"}, {"d": "2026-12-31", "cat": "門票", "item": "美泉宮", "amt": 28, "cur": "EUR", "paid": "待付"}, {"d": "2027-01-01", "cat": "交通", "item": "火車 維也納→薩爾茲堡(2人)", "amt": 59.8, "cur": "EUR", "paid": "已付"}], "rate": {"TWD": 1, "EUR": 36, "HUF": 0.09}, "v": 1794848030529, "bk": [{"ty": "機票", "d": "2026-12-27", "s": "09:30", "e": "11:25", "n": "Wizz Air W6 2272 艾恩德霍芬→布達佩斯", "f": "Eindhoven EIN", "to": "Budapest BUD 2B航廈", "cf": "AJDYTI", "nt": "座位 15F;手提 40x30x20cm、托運 20kg;乘客 Yu-Lun Tai;須帶有照片的證件", "l": "", "amt": 154.79, "cur": "EUR"}, {"ty": "火車", "d": "2026-12-30", "s": "11:30", "e": "14:20", "n": "Railjet Xpress RJX 64 布達佩斯→維也納(2人)", "f": "Budapest-Keleti", "to": "Wien Hbf", "cf": "0341 3512 0156 2549", "nt": "2等艙;22車廂 座位71(窗)・73(走道)靠桌;乘客 Tai Yu-Lun、Chung Chia-Yu;車票12/30–12/31有效;跨國車票需列印A4並帶證件", "l": "", "amt": 111.4, "cur": "EUR"}, {"ty": "音樂會", "d": "2026-12-30", "s": "20:15", "e": "", "n": "Vienna Mozart Orchestra 音樂會", "f": "Heldenplatz, 1010 Wien", "to": "Hofburg - Great Hall", "cf": "C141126026", "nt": "19:45 開放入場;相鄰座位於當晚票務櫃檯領取;E-Ticket 可列印或手機出示;訂購人 Yu-Lun Tai", "l": "", "amt": "", "cur": "EUR"}, {"ty": "火車", "d": "2027-01-01", "s": "17:28", "e": "19:53", "n": "Railjet Xpress RJX 760 維也納→薩爾茲堡(2人)", "f": "Wien Hbf(月台3-12)", "to": "Salzburg Hbf", "cf": "0103 1686 7184 4233", "nt": "2等艙 Sparschiene Komfort,限搭此班(Zugbindung);21車廂 座位71(窗)・73(走道)靠桌;乘客同上;須帶證件", "l": "", "amt": 59.8, "cur": "EUR"}, {"ty": "機票", "d": "2027-01-04", "s": "16:45", "e": "18:20", "n": "Transavia HV6782 薩爾茲堡→鹿特丹/海牙", "f": "Salzburg 機場(SZG)", "to": "Rotterdam / The Hague", "cf": "FYE24C", "nt": "座位 28D;Plus 票價,手提 40x30x20cm、托運 20kg;報到櫃檯起飛前40分鐘(16:05)關閉;14天前可免費改期(補票價差);乘客 Yu-Lun Tai", "l": "", "amt": 125, "cur": "EUR"}], "ht": [{"n": "Cosy private room in the center(Airbnb)", "c": "布達佩斯", "i": "2026-12-27", "o": "2026-12-30", "ad": "Lónyay u. 41, 1093 Budapest", "cf": "HMMFFEMBXA", "ph": "+36 70 633 9013", "l": "", "nt": "房東 Domonkos(電話為房東);入住 15:00 後、退房 10:00 前;訂單成人 1 位(房規最多 2 人過夜);11/27 15:00 前可免費取消,12/20 15:00 前取消可部分退款", "amt": 11643.14, "cur": "TWD"}, {"n": "Leonardo Hotel Vienna Hauptbahnhof", "c": "維也納", "i": "2026-12-30", "o": "2027-01-01", "ad": "Gerhard-Bronner-Straße 5, 1100 Wien", "cf": "2964112356243201426", "ph": "+43 12 359009", "l": "", "nt": "2晚1間舒適雙人房;入住 15:00–24:00、退房 12:00;入住編號 723865183;不可退款;現場另付 €24(其他費用);可加購早餐每人 TWD 657;入住須出示與訂房姓名相符的有照證件(住客 Yu Lun Tai)", "amt": 18836, "cur": "TWD"}, {"n": "Hotel Flair", "c": "薩爾茲堡", "i": "2027-01-01", "o": "2027-01-04", "ad": "Salzburger Schützenstraße 7, 5020 Salzburg", "cf": "5997132269", "ph": "+43 662 452157", "l": "", "nt": "入住 15:00–23:00、退房 11:00 前;櫃檯 07:00–23:00;22:30 後抵達需先聯絡(可用保險箱自助入住);15:00 前到可免費寄放行李;13:00–14:00 提早入住需申請,每房 €10;停車每晚 €10;可領 Salzburg 訪客交通票(需住址與生日);信上稱呼為 Chung", "amt": "", "cur": ""}], "ac": [{"d": "2026-12-27", "item": "晚餐 牛肉湯", "cat": "餐飲", "amt": 9000, "cur": "HUF", "who": "我", "mine": 4500, "n": "範例:2人均分"}, {"d": "2026-12-28", "item": "夜間遊船", "cat": "門票", "amt": 30, "cur": "EUR", "who": "朋友", "mine": 15, "n": "範例"}, {"d": "2026-12-28", "item": "咖啡", "cat": "餐飲", "amt": 1800, "cur": "HUF", "who": "我", "mine": 900, "n": "範例"}]};
+const $=s=>document.querySelector(s),enc=encodeURIComponent,p2=n=>String(n).padStart(2,'0');
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const WD=['日','一','二','三','四','五','六'];
+let D=DEFAULT,tab='today',op=new Set(),sel=null;
+try{const x=JSON.parse(localStorage.getItem('trip_v2')||'null');if(x&&x.at>DEFAULT.v)D=x}catch(e){}
+const save=()=>{D.at=Date.now();try{localStorage.setItem('trip_v2',JSON.stringify(D))}catch(x){}};
+const toast=m=>{const t=$('#ts');t.textContent=m;t.style.opacity=1;setTimeout(()=>t.style.opacity=0,1600)};
+const pd=s=>{const a=s.split('-').map(Number);return new Date(Date.UTC(a[0],a[1]-1,a[2]))};
+const md=d=>{const x=pd(d);return (x.getUTCMonth()+1)+'/'+x.getUTCDate()+'(週'+WD[x.getUTCDay()]+')'};
+const ds=(d,t)=>d.replace(/-/g,'')+'T'+t.replace(':','')+'00';
+function calUrl(r){let dt;
+ if(r.s){let en;if(r.e)en=ds(r.d,r.e);else{const a=r.s.split(':').map(Number);en=ds(r.d,p2(Math.min(a[0]+1,23))+':'+p2(a[1]))}dt=ds(r.d,r.s)+'/'+en}
+ else{const n=new Date(pd(r.d).getTime()+864e5).toISOString().slice(0,10).replace(/-/g,'');dt=r.d.replace(/-/g,'')+'/'+n}
+ return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+enc(r.t)+'&dates='+dt+'&ctz=Europe/Vienna&location='+enc(r.p||r.t)+'&details='+enc([r.n,r.l].filter(Boolean).join('\n'))}
+const mapQ=q=>'https://www.google.com/maps/search/?api=1&query='+enc(q);
+const A=(h,t)=>'<a target="_blank" rel="noopener" href="'+h+'">'+t+'</a>';
+const lk=u=>String(u||'').trim().split(/\s+/).filter(x=>/^https?:\/\//i.test(x)).map(x=>A(esc(x),/instagram/.test(x)?'IG':/youtu/.test(x)?'YouTube':'連結')).join('');
+const ic=t=>/機|飛|航/.test(t)?'✈️':/火車|鐵/.test(t)?'🚆':'🎫';
+const cfh=c=>c?' <a class="cf" data-cp="'+esc(c)+'">'+esc(c)+' 📋</a>':'';
+const f=n=>'NT$ '+Math.round(n).toLocaleString();
+function days(){const m={};D.it.forEach((r,i)=>{r.i=i;(m[r.d]=m[r.d]||[]).push(r)});return Object.keys(m).sort().map(k=>({d:k,r:m[k]}))}
+function card(r,h){return '<div class="it" data-i="'+r.i+'"><div class="tm">'+esc(r.s)+(r.e?'<br><span class="mu">'+esc(r.e)+'</span>':'')+'</div><div class="cn"><b>'+esc(r.t)+'</b>'+(r.tr||r.du?'<div class="mu">🧭 '+esc(r.tr)+(r.du?' · '+esc(r.du):'')+'</div>':'')+(r.n?'<div class="mu">'+esc(r.n)+'</div>':'')+
+ '<div class="btns">'+A(mapQ((r.p||r.t)+' '+(r.c||'')),'📍地圖')+A(calUrl(r),'📅加入日曆')+lk(r.l)+'</div></div>'+(h?'<div class="hd">⠿</div>':'')+'</div>'}
+function dayInfo(d){let h='';
+ D.ht.forEach(x=>{if((x.i<=d&&d<x.o)||x.o==d)h+='<div class="bk">🏨 '+(x.i==d?'入住':x.o==d?'退房':'住宿')+':'+esc(x.n)+cfh(x.cf)+'</div>'});
+ D.bk.filter(b=>b.d==d).sort((a,b)=>(a.s||'').localeCompare(b.s||'')).forEach(b=>{h+='<div class="bk">'+ic(b.ty)+' '+esc(b.s)+' '+esc(b.n)+cfh(b.cf)+'</div>'});return h}
+function vToday(){const L=days();if(!L.length)return '';
+ const n=new Date(),T=n.getFullYear()+'-'+p2(n.getMonth()+1)+'-'+p2(n.getDate()),NT=p2(n.getHours())+':'+p2(n.getMinutes());
+ const inR=L.some(x=>x.d==T);if(!sel||!L.some(x=>x.d==sel))sel=inR?T:L[0].d;
+ const day=L.find(x=>x.d==sel);let h='';
+ if(!inR){const g=Math.ceil((pd(L[0].d)-pd(T))/864e5);h+='<div class="note" style="margin-top:0">'+(g>0?'距出發還有 '+g+' 天,以下為預覽':'旅程已結束,以下為回顧')+'</div>'}
+ h+='<div class="chips">'+L.map(x=>'<button data-sel="'+x.d+'"'+(x.d==sel?' class="on"':'')+'>'+md(x.d).replace(/\(週.\)/,'')+' '+esc(x.r[0].c)+'</button>').join('')+'</div>';
+ const nx=sel==T?day.r.find(r=>(r.s||'99')>=NT):day.r[0];
+ if(nx)h+='<h3>'+(sel==T?'下一站':'第一站')+'</h3><div class="nx">'+card(nx,false)+'</div>';
+ h+=dayInfo(sel)+'<h3>'+md(sel)+' 全天行程</h3><div class="card" style="padding:0 14px">'+day.r.map(r=>card(r,false)).join('')+'</div>';
+ const sp=D.ac.filter(r=>r.d==sel).reduce((s,r)=>s+my(r),0);if(sp)h+='<div class="note">這天已記帳:'+f(sp)+'</div>';return h}
+function vTl(){return days().map((x,i)=>{
+ const ps=x.r.filter(r=>r.p).map(r=>r.p+' '+(r.c||''));let rt='';
+ if(ps.length>1)rt='<a class="route" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin='+enc(ps[0])+'&destination='+enc(ps[ps.length-1])+(ps.length>2?'&waypoints='+ps.slice(1,-1).map(enc).join('%7C'):'')+'">🗺 當天路線(Google 地圖)</a>';
+ return '<details data-d="'+x.d+'"'+(op.has(x.d)||(!op.size&&i==0)?' open':'')+'><summary><div>'+md(x.d)+' '+esc(x.r[0].c)+'</div><span>'+x.r.length+' 項</span></summary><div class="in">'+rt+dayInfo(x.d)+x.r.map(r=>card(r,true)).join('')+'</div></details>'}).join('')+
+ '<button id="cp" style="margin:4px 0 8px">📋 複製調整後行程(貼回 Excel)</button><textarea id="ta" hidden style="width:100%;height:110px"></textarea><div class="note">按住 ⠿ 拖曳調整順序;拖到另一天的項目上即換日期(先展開該天)。調整只存在這支手機,重新匯入 Excel 會覆蓋。</div>'}
+function vBk(){const B=D.bk.slice().sort((a,b)=>(a.d+(a.s||'')).localeCompare(b.d+(b.s||'')));
+ return '<h3 style="margin-top:0">機票・火車・門票</h3>'+(B.length?B.map(b=>'<div class="card"><b>'+ic(b.ty)+' '+esc(b.n)+'</b><div class="mu">'+md(b.d)+' '+esc(b.s)+(b.e?'–'+esc(b.e):'')+'</div>'+((b.f||b.to)?'<div>'+esc(b.f)+(b.f&&b.to?' → ':'')+esc(b.to)+'</div>':'')+(b.nt?'<div class="mu">'+esc(b.nt)+'</div>':'')+
+ '<div class="btns">'+(b.cf?'<a data-cp="'+esc(b.cf)+'">確認碼 '+esc(b.cf)+' 📋</a>':'')+A(calUrl({d:b.d,s:b.s,e:b.e,t:b.n,p:b.to||b.f,n:b.cf?'確認碼 '+b.cf:'',l:b.l}),'📅加入日曆')+((b.to||b.f)?A(mapQ(b.to||b.f),'📍地圖'):'')+lk(b.l)+'</div></div>').join(''):'<div class="note">尚無資料</div>')+
+ '<h3>住宿</h3>'+(D.ht.length?D.ht.map(x=>'<div class="card"><b>🏨 '+esc(x.n)+'</b><div class="mu">'+md(x.i)+' 入住 → '+md(x.o)+' 退房・'+Math.round((pd(x.o)-pd(x.i))/864e5)+' 晚</div>'+(x.nt?'<div class="mu">'+esc(x.nt)+'</div>':'')+
+ '<div class="btns">'+(x.cf?'<a data-cp="'+esc(x.cf)+'">確認碼 '+esc(x.cf)+' 📋</a>':'')+A(mapQ(x.ad||(x.n+' '+x.c)),'📍地圖')+(x.ph?'<a href="tel:'+esc(String(x.ph).replace(/[^\d+]/g,''))+'">📞電話</a>':'')+lk(x.l)+'</div></div>').join(''):'<div class="note">尚無資料</div>')}
+const my=r=>(+(r.mine===''||r.mine==null?r.amt:r.mine)||0)*(D.rate[r.cur]||1);
+function vBd(){const rt=D.rate,tw=r=>(+r.amt||0)*(rt[r.cur||'TWD']||1);
+ const plan=D.bd.reduce((s,r)=>s+tw(r),0),act=D.ac.reduce((s,r)=>s+my(r),0),bkd=D.bk.concat(D.ht).reduce((s,r)=>s+tw(r),0);
+ const P={},Q={},g={};D.bd.forEach(r=>{const k=r.cat||'其他';P[k]=(P[k]||0)+tw(r)});D.ac.forEach(r=>{const k=r.cat||'其他';Q[k]=(Q[k]||0)+my(r);(g[r.d]=g[r.d]||[]).push(r)});
+ const ks=Object.keys(Object.assign({},P,Q));
+ return '<div class="card"><div class="mu">實際花費(我的分攤,Lightsplit)</div><div class="tot">'+f(act)+'</div><div class="mu">預算 '+f(plan)+' ・ '+(plan>=act?'剩餘 '+f(plan-act):'超支 '+f(act-plan))+'</div><div class="note" style="margin-bottom:0">已預訂訂單(機票/住宿/門票)合計 '+f(bkd)+',僅供參考,不計入實際花費</div></div>'+
+ '<div class="card">'+ks.map(k=>{const a=Q[k]||0,p=P[k]||0;return '<div class="row" style="padding-bottom:0"><span>'+esc(k)+'</span><span>'+f(a)+' / '+f(p)+'</span></div><div class="bar"><i style="width:'+(p?Math.min(100,a/p*100):a?100:0)+'%'+(p&&a>p?';background:var(--ac)':'')+'"></i></div>'}).join('')+'</div>'+
+ '<h3>每日帳目</h3>'+(Object.keys(g).length?Object.keys(g).sort().map(d=>'<div class="card"><div class="row" style="padding-top:0"><b>'+md(d)+'</b><b>'+f(g[d].reduce((s,r)=>s+my(r),0))+'</b></div>'+g[d].map(r=>'<div class="row mu"><span>'+esc(r.item)+(r.who?'('+esc(r.who)+'付)':'')+'</span><span>'+esc(r.amt)+' '+esc(r.cur)+(r.mine!==''&&r.mine!=null?' → 我 '+esc(r.mine):'')+'</span></div>').join('')+'</div>').join(''):'<div class="note">尚無帳目</div>')+
+ '<div class="note">匯率:'+Object.keys(rt).map(k=>k+'='+rt[k]).join('、')+'(取自 Excel「預算」I:J 欄)</div>'}
+const P1='請把附上的訂單(機票/火車/音樂會)整理成「訂位」欄位:類型、日期、開始、結束、名稱、出發地、目的地/場地、確認碼、座位備註、連結、金額、幣別。看不清楚的請留空並告訴我。';
+const P2='請把附上的飯店訂單整理成「住宿」欄位:名稱、城市、入住日、退房日、地址、確認碼、電話、連結、備註、金額、幣別。看不清楚的請留空並告訴我。';
+const P3='這是 Lightsplit 的帳目截圖,請整理成「Lightsplit帳目」欄位:日期、項目、類別、金額、幣別、付款人、我的分攤(原幣別)、備註。';
+const vIm=()=>'<div class="card"><b>① 訂位:機票/火車/音樂會</b><div class="mu">把 PDF 或截圖傳到 Claude 對話,貼上下面的指令,我整理後更新 Excel 與這個網頁。</div><div class="btns"><a data-cp="'+esc(P1)+'">📋 複製指令</a></div></div>'+
+ '<div class="card"><b>② 住宿:飯店訂單</b><div class="mu">同上,傳訂單 PDF 或截圖。</div><div class="btns"><a data-cp="'+esc(P2)+'">📋 複製指令</a></div></div>'+
+ '<div class="card"><b>③ 每日記帳:Lightsplit</b><div class="mu">每天截圖當日帳目傳給 Claude,我補到「Lightsplit帳目」。「我的分攤」請在截圖中標出或告訴我。</div><div class="btns"><a data-cp="'+esc(P3)+'">📋 複製指令</a></div></div>'+
+ '<div class="card"><b>④ 自己填 Excel,再匯入</b><div class="mu">工作表:行程、訂位、住宿、預算、Lightsplit帳目(名稱與欄位順序請保留)。存檔後在此選檔:</div><div class="btns"><label class="imp">匯入 Excel<input id="f" type="file" accept=".xlsx,.xls" hidden></label></div></div>'+
+ '<div class="note">Claude 更新後會重新發佈同一個網頁連結,重新整理即可看到新資料;若你在手機上拖曳過行程,更新前請先複製調整後行程。</div>';
+const T=[['today','今天'],['tl','時間軸'],['bk','訂位'],['bd','預算'],['im','匯入']],V={today:vToday,tl:vTl,bk:vBk,bd:vBd,im:vIm};
+function render(){if(document.querySelector('#m details'))op=new Set([...document.querySelectorAll('#m details[open]')].map(x=>x.dataset.d));
+ $('#tb').innerHTML=T.map(t=>'<button data-tab="'+t[0]+'"'+(t[0]==tab?' class="on"':'')+'>'+t[1]+'</button>').join('');$('#m').innerHTML=V[tab]()}
+function nd(v){if(typeof v==='number')return new Date(Math.floor(v-25569)*864e5).toISOString().slice(0,10);
+ const m=String(v||'').match(/(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);return m?m[1]+'-'+p2(m[2])+'-'+p2(m[3]):''}
+function nt(v){if(typeof v==='number'&&v<1){const t=Math.round(v*1440);return p2(t/60|0)+':'+p2(t%60)}
+ const m=String(v||'').match(/(\d{1,2}):(\d{2})/);return m?p2(m[1])+':'+m[2]:''}
+async function imp(fl){if(!fl)return;
+ try{const wb=XLSX.read(await fl.arrayBuffer(),{type:'array'});
+  const g=n=>{const k=wb.SheetNames.find(x=>x.indexOf(n)>=0);return k?XLSX.utils.sheet_to_json(wb.Sheets[k],{header:1,raw:true,defval:''}).slice(1):[]};
+  const it=g('行程').map(a=>({d:nd(a[0]),s:nt(a[1]),e:nt(a[2]),c:a[3],t:a[4],p:a[5],tr:a[6],du:a[7],l:a[8],n:a[9]})).filter(r=>r.d&&r.t);
+  if(!it.length)throw 0;
+  const b=g('預算'),rate={TWD:1};b.forEach(a=>{if(a[8]&&typeof a[9]==='number')rate[a[8]]=a[9]});
+  D={v:D.v,it:it,rate:rate,
+   bd:b.map(a=>({d:nd(a[0]),cat:a[1],item:a[2],amt:+a[3]||0,cur:a[4]||'TWD',paid:a[6]})).filter(r=>r.item&&r.amt),
+   bk:g('訂位').map(a=>({ty:String(a[0]),d:nd(a[1]),s:nt(a[2]),e:nt(a[3]),n:a[4],f:a[5],to:a[6],cf:a[7],nt:a[8],l:a[9],amt:+a[10]||0,cur:a[11]||'TWD'})).filter(r=>r.d&&r.n),
+   ht:g('住宿').map(a=>({n:a[0],c:a[1],i:nd(a[2]),o:nd(a[3]),ad:a[4],cf:a[5],ph:a[6],l:a[7],nt:a[8],amt:+a[9]||0,cur:a[10]||'TWD'})).filter(r=>r.i&&r.o&&r.n),
+   ac:g('帳目').map(a=>({d:nd(a[0]),item:a[1],cat:a[2],amt:+a[3]||0,cur:a[4]||'TWD',who:a[5],mine:a[6],n:a[7]})).filter(r=>r.d&&r.item&&r.amt)};
+  save();sel=null;tab='today';render();toast('匯入完成')}catch(x){alert('讀取失敗:請確認使用旅遊規劃 Excel 範本(含「行程」工作表)')}}
+document.addEventListener('change',e=>{if(e.target.id=='f')imp(e.target.files[0])});
+let dg=null;
+const clr=()=>document.querySelectorAll('.ot,.ob,.od').forEach(x=>x.classList.remove('ot','ob','od'));
+$('#m').addEventListener('pointerdown',e=>{const h=e.target.closest('.hd');if(!h)return;e.preventDefault();const el=h.closest('.it');dg={i:+el.dataset.i,el:el,t:null};el.classList.add('drag')});
+addEventListener('pointermove',e=>{if(!dg)return;
+ if(e.clientY<100)scrollBy(0,-14);else if(e.clientY>innerHeight-100)scrollBy(0,14);
+ clr();dg.t=null;
+ const els=document.elementsFromPoint(e.clientX,e.clientY).filter(x=>!dg.el.contains(x));
+ const it=els.find(x=>x.classList&&x.classList.contains('it'));
+ if(it){const r=it.getBoundingClientRect(),af=e.clientY>r.top+r.height/2;it.classList.add(af?'ob':'ot');dg.t={b:+it.dataset.i,af:af};return}
+ const dt=els.find(x=>x.tagName=='DETAILS');
+ if(dt){dt.classList.add('od');dg.t={day:dt.dataset.d}}});
+addEventListener('pointerup',()=>{if(!dg)return;const g=dg;dg=null;clr();g.el.classList.remove('drag');if(!g.t)return;
+ const it=D.it,x=it.splice(g.i,1)[0];
+ if(g.t.day!=null){x.d=g.t.day;let l=-1;it.forEach((r,i)=>{if(r.d==x.d)l=i});it.splice(l+1,0,x)}
+ else{let b=g.t.b;if(b>g.i)b--;x.d=it[b].d;it.splice(g.t.af?b+1:b,0,x)}
+ save();render()});
+addEventListener('pointercancel',()=>{if(dg){dg.el.classList.remove('drag');dg=null;clr()}});
+function cpy(t,ok){try{navigator.clipboard.writeText(t).then(()=>ok&&toast('已複製'),()=>alert(t))}catch(x){alert(t)}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-tab],[data-sel],[data-cp],#cp');if(!t)return;
+ if(t.dataset.tab){tab=t.dataset.tab;render();scrollTo(0,0)}
+ else if(t.dataset.sel){sel=t.dataset.sel;render()}
+ else if(t.dataset.cp)cpy(t.dataset.cp,1);
+ else{const s=days().reduce((a,x)=>a.concat(x.r),[]).map(r=>[r.d,r.s,r.e,r.c,r.t,r.p,r.tr,r.du,r.l,r.n].map(v=>String(v==null?'':v).replace(/[\t\n]/g,' ')).join('\t')).join('\n');
+  try{navigator.clipboard.writeText(s).then(()=>toast('已複製,到 Excel「行程」A2 貼上'),()=>{const a=$('#ta');a.hidden=false;a.value=s;a.select()})}catch(x){const a=$('#ta');a.hidden=false;a.value=s;a.select()}}});
+render();
+</script></body></html>
